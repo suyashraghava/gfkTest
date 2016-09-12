@@ -30,7 +30,6 @@ y = np.asarray(brand_57_48['value'], dtype="|S6")
 brandProcessed_57_48.drop(['district','main_provider','projectionfactor','value'],axis= 1, inplace = True)
 
 
-
 #feature selection
 print brand_57_48.shape
 from sklearn.feature_selection import SelectPercentile, f_classif, SelectFromModel
@@ -54,6 +53,8 @@ X_train, X_test, y_train, y_test = cross_validation.train_test_split(HPfeature_5
 from sklearn.ensemble.forest import RandomForestRegressor
 clf = RandomForestRegressor()
 clf.fit(X_train,y_train)
+
+#predict
 from sklearn.metrics import mean_squared_error
 y_pred = clf.predict(X_test)
 y_test = np.array(y_test,np.float)
