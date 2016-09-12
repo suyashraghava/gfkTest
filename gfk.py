@@ -25,25 +25,26 @@ brand_b7_38 = consumer.loc[consumer['brand_anon'] == 'b7907338']
 brandProcessed_57_48 = process(brand_57_48)
 brandProcessed_b7_38 = process(brand_b7_38)
 
-y = np.asarray(brand_57_48['value'], dtype="|S6")
+y = np.asarray(brand_57_48['value'], dtype="float64")
 #ignore columns
 brandProcessed_57_48.drop(['district','main_provider','projectionfactor','value'],axis= 1, inplace = True)
 
 
 #feature selection
 print brand_57_48.shape
-from sklearn.feature_selection import SelectPercentile, f_classif, SelectFromModel
+from sklearn.feature_selection import SelectPercentile,f_regression, SelectFromModel
 #from sklearn.svm import LinearSVC
 #lsvc = LinearSVC(C=0.1, penalty="l1", dual=False)
 #ftp = SelectFromModel(lsvc)
-ftp = SelectPercentile(f_classif, percentile=80)
+ftp = SelectPercentile(f_regression, percentile=80)
 HPfeature_57_48 = ftp.fit_transform(brandProcessed_57_48.values,y)
 features_selected = ftp.get_support(indices = False)
 HPfeature_57_48.shape
 
 c = []
 for i in range(len(features_selected)): c.append(i) if ( features_selected[i] == True) else 0
-print brand_57_48.iloc[[0],c]
+print ">>>> Slected Features <<<<<<"
+print brand_57_48.iloc[[0],c],'\n'
 
 #spliting data for crossvalidation
 from sklearn import cross_validation
@@ -58,7 +59,7 @@ clf.fit(X_train,y_train)
 from sklearn.metrics import mean_squared_error
 y_pred = clf.predict(X_test)
 y_test = np.array(y_test,np.float)
-print mean_squared_error(y_test,y_pred) 
+print "score", mean_squared_error(y_test,y_pred) 
 
 
 
