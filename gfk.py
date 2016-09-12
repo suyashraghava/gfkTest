@@ -37,15 +37,28 @@ from sklearn.feature_selection import SelectPercentile, f_classif, SelectFromMod
 #from sklearn.svm import LinearSVC
 #lsvc = LinearSVC(C=0.1, penalty="l1", dual=False)
 #ftp = SelectFromModel(lsvc)
-
 ftp = SelectPercentile(f_classif, percentile=80)
 HPfeature_57_48 = ftp.fit_transform(brandProcessed_57_48.values,y)
 features_selected = ftp.get_support(indices = False)
-print HPfeature_57_48.shape
-c = []
+HPfeature_57_48.shape
 
+c = []
 for i in range(len(features_selected)): c.append(i) if ( features_selected[i] == True) else 0
 print brand_57_48.iloc[[0],c]
+
+#spliting data for crossvalidation
+from sklearn import cross_validation
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(HPfeature_57_48,y,test_size= 0.4,random_state = 0)
+
+#train model
+from sklearn.ensemble.forest import RandomForestRegressor
+clf = RandomForestRegressor()
+clf.fit(X_train,y_train)
+from sklearn.metrics import mean_squared_error
+y_pred = clf.predict(X_test)
+y_test = np.array(y_test,np.float)
+print mean_squared_error(y_test,y_pred) 
+
 
 
 
