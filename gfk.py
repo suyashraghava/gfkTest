@@ -49,6 +49,14 @@ fig = type_b7_38.get_figure()
 fig.savefig('type_b7_38.jpg')
 plt.close()
 
+#NUMERICS VALUES
+type_57_48 = brand_57_48.plot(x ="date", y = "amount", style= 'o' ,title ="573fef48",figsize=(15,15),legend=True, fontsize=12)
+fig = type_57_48.get_figure()
+fig.savefig('date_VS_amount_57_48.jpg')
+plt.close()
+
+
+
 
 
 
